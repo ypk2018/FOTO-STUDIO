@@ -1,0 +1,178 @@
+import { PhotoSizePreset, PaperPreset } from '../types';
+
+export const PHOTO_SIZE_PRESETS: PhotoSizePreset[] = [
+  // --- PAS FOTO & DOKUMEN RESMI ---
+  {
+    id: 'pas-2x2-cm',
+    name: '2 x 2 cm',
+    category: 'pas_foto',
+    widthMm: 20,
+    heightMm: 20,
+    description: '20 x 20 mm',
+    recommendedFor: 'Stempel foto, formulir registrasi mini, sertifikat khusus',
+    aspectRatio: 1,
+  },
+  {
+    id: 'pas-2x2-in',
+    name: '2 x 2 inch (US Visa)',
+    category: 'pas_foto',
+    widthMm: 50.8,
+    heightMm: 50.8,
+    description: '50.8 x 50.8 mm (5.1 x 5.1 cm)',
+    recommendedFor: 'Visa Amerika Serikat, Visa India, Paspor Internasional',
+    aspectRatio: 1,
+  },
+  {
+    id: 'pas-2x3',
+    name: '2 x 3 cm',
+    category: 'pas_foto',
+    widthMm: 21.6,
+    heightMm: 27.9,
+    description: '21.6 x 27.9 mm',
+    recommendedFor: 'KTP, SIM, Kartu Pelajar, Buku Anggota',
+    aspectRatio: 21.6 / 27.9,
+  },
+  {
+    id: 'pas-3x4',
+    name: '3 x 4 cm',
+    category: 'pas_foto',
+    widthMm: 27.9,
+    heightMm: 38.1,
+    description: '27.9 x 38.1 mm',
+    recommendedFor: 'Ijazah kelulusan, CPNS / BKN, Buku Nikah, Lamaran Kerja',
+    aspectRatio: 27.9 / 38.1,
+  },
+  {
+    id: 'pas-4x6',
+    name: '4 x 6 cm',
+    category: 'pas_foto',
+    widthMm: 38.1,
+    heightMm: 55.9,
+    description: '38.1 x 55.9 mm',
+    recommendedFor: 'Paspor RI, SKCK Kepolisian, Dokumen Kedutaan, Ijazah',
+    aspectRatio: 38.1 / 55.9,
+  },
+  {
+    id: 'pas-3.5x4.5',
+    name: '3.5 x 4.5 cm (Visa Schengen)',
+    category: 'pas_foto',
+    widthMm: 35,
+    heightMm: 45,
+    description: '35 x 45 mm',
+    recommendedFor: 'Visa Eropa (Schengen), Visa Jepang, Korea, UK',
+    aspectRatio: 35 / 45,
+  },
+
+  // --- SERI FOTO CETAK (2R s/d 10R) ---
+  {
+    id: 'seri-2r',
+    name: '2R',
+    category: 'seri_r',
+    widthMm: 60,
+    heightMm: 90,
+    description: '6 x 9 cm (2.36 x 3.54 inch)',
+    recommendedFor: 'Foto dompet, gantungan kunci, mini album, souvenir',
+    aspectRatio: 60 / 90,
+  },
+  {
+    id: 'seri-3r',
+    name: '3R',
+    category: 'seri_r',
+    widthMm: 89,
+    heightMm: 127,
+    description: '8.9 x 12.7 cm (3.5 x 5 inch)',
+    recommendedFor: 'Album foto keluarga klasik, meja kerja, pigura mini',
+    aspectRatio: 89 / 127,
+  },
+  {
+    id: 'seri-4r',
+    name: '4R (Paling Populer)',
+    category: 'seri_r',
+    widthMm: 102,
+    heightMm: 152,
+    description: '10.2 x 15.2 cm (4 x 6 inch)',
+    recommendedFor: 'Ukuran cetak standar studio, album foto 4R, pigura meja',
+    aspectRatio: 102 / 152,
+  },
+  {
+    id: 'seri-5r',
+    name: '5R',
+    category: 'seri_r',
+    widthMm: 127,
+    heightMm: 178,
+    description: '12.7 x 17.8 cm (5 x 7 inch)',
+    recommendedFor: 'Foto portrait personal, pigura meja elegan, pajangan kabinet',
+    aspectRatio: 127 / 178,
+  },
+  {
+    id: 'seri-6r',
+    name: '6R',
+    category: 'seri_r',
+    widthMm: 152,
+    heightMm: 203,
+    description: '15.2 x 20.3 cm (6 x 8 inch)',
+    recommendedFor: 'Foto keluarga sedang, wisuda meja, pajangan dinding medium',
+    aspectRatio: 152 / 203,
+  },
+  {
+    id: 'seri-8r',
+    name: '8R',
+    category: 'seri_r',
+    widthMm: 203,
+    heightMm: 254,
+    description: '20.3 x 25.4 cm (8 x 10 inch)',
+    recommendedFor: 'Pigura dinding, foto wisuda resmi, foto pre-wedding medium',
+    aspectRatio: 203 / 254,
+  },
+  {
+    id: 'seri-8r-plus',
+    name: '8R Plus (8S)',
+    category: 'seri_r',
+    widthMm: 203,
+    heightMm: 305,
+    description: '20.3 x 30.5 cm (8 x 12 inch)',
+    recommendedFor: 'Proporsi lebar kamera DSLR (rasio 2:3), pigura panjang',
+    aspectRatio: 203 / 305,
+  },
+  {
+    id: 'seri-10r',
+    name: '10R',
+    category: 'seri_r',
+    widthMm: 254,
+    heightMm: 305,
+    description: '25.4 x 30.5 cm (10 x 12 inch)',
+    recommendedFor: 'Foto keluarga besar, pigura dinding utama, foto wedding',
+    aspectRatio: 254 / 305,
+  },
+  {
+    id: 'seri-10r-plus',
+    name: '10R Plus (10S)',
+    category: 'seri_r',
+    widthMm: 254,
+    heightMm: 381,
+    description: '25.4 x 38.1 cm (10 x 15 inch)',
+    recommendedFor: 'Foto cetak dinding lebar bioskop/DSLR rasio 2:3',
+    aspectRatio: 254 / 381,
+  },
+];
+
+export const PAPER_PRESETS: PaperPreset[] = [
+  { id: 'a4', name: 'Kertas A4', widthMm: 210, heightMm: 297 },
+  { id: 'f4', name: 'Kertas F4 / Folio', widthMm: 215, heightMm: 330 },
+  { id: 'letter', name: 'Kertas Letter', widthMm: 215.9, heightMm: 279.4 },
+  { id: '4r', name: 'Kertas Foto 4R', widthMm: 102, heightMm: 152 },
+];
+
+export const PAS_FOTO_BG_COLORS = [
+  { label: 'Merah (Tahun Genap)', hex: '#D80000', code: 'red' },
+  { label: 'Biru (Tahun Ganjil)', hex: '#0055D4', code: 'blue' },
+  { label: 'Putih (Visa / Netral)', hex: '#FFFFFF', code: 'white' },
+  { label: 'Abu-Abu Formal', hex: '#808080', code: 'gray' },
+  { label: 'Kuning', hex: '#FACC15', code: 'yellow' },
+];
+
+export const MM_TO_INCH = 1 / 25.4;
+
+export function mmToPixels(mm: number, dpi: number = 300): number {
+  return Math.round(mm * MM_TO_INCH * dpi);
+}

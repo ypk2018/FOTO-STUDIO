@@ -1,0 +1,6 @@
+{
+  "name": "Editor Ukuran Foto (2x2 - 10R)",
+  "description": "Aplikasi editor dan pemotong foto untuk ukuran pas foto 2x2 hingga cetak 10R dengan panduan biometrik dan lembar cetak.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
