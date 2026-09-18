@@ -37,8 +37,10 @@ export interface CropState {
 }
 
 export interface BackgroundSettings {
-  mode: 'original' | 'color';
+  mode: 'original' | 'color' | 'image';
   color: string; // e.g. '#D80000' (Merah), '#0055D4' (Biru), '#FFFFFF' (Putih)
+  imageUrl?: string;
+  imageElement?: HTMLImageElement;
   tolerance?: number;
 }
 

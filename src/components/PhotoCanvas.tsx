@@ -105,11 +105,53 @@ export const PhotoCanvas: React.FC<PhotoCanvasProps> = ({
 
     const { scale, offsetX, offsetY, renderW, renderH } = getRenderTransform();
 
+    // Crop box coordinates in container space
+    const cropX = offsetX + crop.x * renderW;
+    const cropY = offsetY + crop.y * renderH;
+    const cropW = crop.width * renderW;
+    const cropH = crop.height * renderH;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw dark studio backdrop
     ctx.fillStyle = '#0F172A';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // --- Draw user selected background exactly inside the crop box ---
+    ctx.save();
+    // Clip to crop box so background doesn't bleed outside if we want, 
+    // actually we just draw it strictly inside cropX/Y/W/H.
+    if (background.mode === 'color' && background.color && background.color !== 'transparent') {
+      ctx.fillStyle = background.color;
+      ctx.fillRect(cropX, cropY, cropW, cropH);
+    } else if (background.mode === 'image' && background.imageElement) {
+      const bgImg = background.imageElement;
+      const bgAspect = bgImg.width / bgImg.height;
+      const targetAspect = cropW / cropH;
+      
+      let drawW = cropW;
+      let drawH = cropH;
+      let drawX = cropX;
+      let drawY = cropY;
+
+      if (bgAspect > targetAspect) {
+        drawH = cropH;
+        drawW = bgImg.width * (cropH / bgImg.height);
+        drawX = cropX + (cropW - drawW) / 2;
+      } else {
+        drawW = cropW;
+        drawH = bgImg.height * (cropW / bgImg.width);
+        drawY = cropY + (cropH - drawH) / 2;
+      }
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(cropX, cropY, cropW, cropH);
+      ctx.clip();
+      ctx.drawImage(bgImg, drawX, drawY, drawW, drawH);
+      ctx.restore();
+    }
+    ctx.restore();
 
     // 1. Draw original image with adjustments applied
     ctx.save();
@@ -272,6 +314,7 @@ export const PhotoCanvas: React.FC<PhotoCanvasProps> = ({
     crop,
     adjustments,
     border,
+    background,
     preset,
     showGrid,
     showFaceGuide,

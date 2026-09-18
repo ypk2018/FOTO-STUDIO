@@ -22,7 +22,9 @@ import {
   CheckCircle2,
   SlidersHorizontal,
   Flame,
-  Wind
+  Wind,
+  Image as ImageIcon,
+  Upload
 } from 'lucide-react';
 
 interface AdjustmentPanelProps {
@@ -34,6 +36,13 @@ interface AdjustmentPanelProps {
   onBackgroundChange: (bg: BackgroundSettings) => void;
   preset: PhotoSizePreset;
 }
+
+const PRESET_IMAGE_BGS = [
+  { id: 'nature', label: 'Alam', url: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=800&auto=format&fit=crop' },
+  { id: 'city', label: 'Bangunan', url: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=800&auto=format&fit=crop' },
+  { id: 'abstract', label: 'Abstrak', url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop' },
+  { id: 'studio', label: 'Studio', url: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=800&auto=format&fit=crop' }
+];
 
 export const AdjustmentPanel: React.FC<AdjustmentPanelProps> = ({
   adjustments,
@@ -47,6 +56,16 @@ export const AdjustmentPanel: React.FC<AdjustmentPanelProps> = ({
   const [activeTab, setActiveTab] = useState<'clean_sharp' | 'adjust' | 'border_bg' | 'info'>('clean_sharp');
   const [isComparingOriginal, setIsComparingOriginal] = useState<boolean>(false);
   const [tempAdjustments, setTempAdjustments] = useState<Adjustments | null>(null);
+  const bgInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleBgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      onBackgroundChange({ mode: 'image', color: 'transparent', imageUrl: url });
+    }
+    if (bgInputRef.current) bgInputRef.current.value = '';
+  };
 
   // 1-Click Clean & Unblur Presets
   const applyCleanEnhancePreset = (type: 'auto' | 'bright_face' | 'unblur_hd' | 'natural_clear') => {
@@ -674,6 +693,61 @@ export const AdjustmentPanel: React.FC<AdjustmentPanelProps> = ({
                   </span>
                 </button>
               </div>
+            </div>
+
+            {/* Latar Belakang Gambar / Abstrak */}
+            <div className="pt-3 border-t border-slate-100">
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <label className="text-xs font-semibold text-slate-800 block">
+                    Latar Belakang Gambar & Abstrak
+                  </label>
+                  <span className="text-[11px] text-slate-500">
+                    Bikin foto makin menarik (Butuh foto objek berlatar transparan)
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 mb-2">
+                {PRESET_IMAGE_BGS.map((bg) => {
+                  const isSelected = background.mode === 'image' && background.imageUrl === bg.url;
+                  return (
+                    <button
+                      key={bg.id}
+                      type="button"
+                      onClick={() => onBackgroundChange({ mode: 'image', color: 'transparent', imageUrl: bg.url })}
+                      className={`h-10 rounded-xl border relative overflow-hidden transition-all ${
+                        isSelected
+                          ? 'border-blue-600 ring-2 ring-blue-500/20 shadow-sm'
+                          : 'border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      <img src={bg.url} alt={bg.label} className="absolute inset-0 w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                        <span className="text-[11px] font-bold text-white drop-shadow-md">
+                          {bg.label}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => bgInputRef.current?.click()}
+                className="w-full p-2 rounded-xl border border-dashed border-slate-300 hover:border-blue-400 bg-slate-50 hover:bg-blue-50 text-slate-600 flex items-center justify-center gap-2 transition-colors"
+              >
+                <Upload className="w-4 h-4 text-slate-400" />
+                <span className="text-xs font-medium">Unggah Gambar Latar...</span>
+              </button>
+              <input
+                type="file"
+                ref={bgInputRef}
+                onChange={handleBgUpload}
+                accept="image/*"
+                className="hidden"
+              />
             </div>
 
             {/* Border / Bingkai Putih Cetak (White Framing) */}

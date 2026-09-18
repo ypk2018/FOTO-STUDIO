@@ -106,7 +106,7 @@ export function createCroppedPhotoCanvas(
   adjustments: Adjustments,
   border: BorderSettings,
   targetDpi: number = 300,
-  backgroundColor?: string
+  background?: BackgroundSettings
 ): HTMLCanvasElement {
   const canvas = document.createElement('canvas');
   const targetWidthPx = mmToPixels(preset.widthMm, targetDpi);
@@ -120,10 +120,37 @@ export function createCroppedPhotoCanvas(
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
 
-  // Fill background if specified
-  if (backgroundColor && backgroundColor !== 'transparent') {
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(0, 0, targetWidthPx, targetHeightPx);
+  // Draw background based on settings
+  if (background) {
+    if (background.mode === 'color' && background.color && background.color !== 'transparent') {
+      ctx.fillStyle = background.color;
+      ctx.fillRect(0, 0, targetWidthPx, targetHeightPx);
+    } else if (background.mode === 'image' && background.imageElement) {
+      // Draw image background covering the entire area (cover mode)
+      const bgImg = background.imageElement;
+      const bgAspect = bgImg.width / bgImg.height;
+      const targetAspect = targetWidthPx / targetHeightPx;
+      
+      let drawW = targetWidthPx;
+      let drawH = targetHeightPx;
+      let drawX = 0;
+      let drawY = 0;
+
+      if (bgAspect > targetAspect) {
+        drawH = targetHeightPx;
+        drawW = bgImg.width * (targetHeightPx / bgImg.height);
+        drawX = (targetWidthPx - drawW) / 2;
+      } else {
+        drawW = targetWidthPx;
+        drawH = bgImg.height * (targetWidthPx / bgImg.width);
+        drawY = (targetHeightPx - drawH) / 2;
+      }
+
+      ctx.drawImage(bgImg, drawX, drawY, drawW, drawH);
+    } else {
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, targetWidthPx, targetHeightPx);
+    }
   } else {
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, targetWidthPx, targetHeightPx);

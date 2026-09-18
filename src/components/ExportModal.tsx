@@ -47,7 +47,7 @@ interface ExportModalProps {
   crop: CropState;
   adjustments: Adjustments;
   border: BorderSettings;
-  backgroundColor?: string;
+  background: BackgroundSettings;
 }
 
 type ExportTarget = 'sheet' | 'single';
@@ -61,7 +61,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
   crop,
   adjustments,
   border,
-  backgroundColor,
+  background,
 }) => {
   // Mode selection: Print Sheet vs Single Photo
   const [exportTarget, setExportTarget] = useState<ExportTarget>('sheet');
@@ -116,7 +116,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
           adjustments,
           border,
           300,
-          backgroundColor
+          background
         );
 
         if (!isMounted) return;
@@ -220,7 +220,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
     crop, 
     adjustments, 
     border, 
-    backgroundColor, 
+    background, 
     exportTarget, 
     sheetDocFormat, 
     sheetConfig, 

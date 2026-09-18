@@ -34,7 +34,7 @@ interface PrintSheetModalProps {
   crop: CropState;
   adjustments: Adjustments;
   border: BorderSettings;
-  backgroundColor?: string;
+  background: BackgroundSettings;
 }
 
 export const PrintSheetModal: React.FC<PrintSheetModalProps> = ({
@@ -45,7 +45,7 @@ export const PrintSheetModal: React.FC<PrintSheetModalProps> = ({
   crop,
   adjustments,
   border,
-  backgroundColor,
+  background,
 }) => {
   const canvasPreviewRef = useRef<HTMLCanvasElement>(null);
   const [sheetConfig, setSheetConfig] = useState<PrintSheetConfig>({
@@ -72,7 +72,7 @@ export const PrintSheetModal: React.FC<PrintSheetModalProps> = ({
       adjustments,
       border,
       300,
-      backgroundColor
+      background
     );
 
     // 2. Generate preview sheet (use 150 DPI for snappy UI preview, 300 DPI for export)
@@ -94,7 +94,7 @@ export const PrintSheetModal: React.FC<PrintSheetModalProps> = ({
     if (ctx) {
       ctx.drawImage(previewSheet, 0, 0);
     }
-  }, [isOpen, image, preset, crop, adjustments, border, backgroundColor, sheetConfig]);
+  }, [isOpen, image, preset, crop, adjustments, border, background, sheetConfig]);
 
   if (!isOpen || !image) return null;
 
@@ -110,7 +110,7 @@ export const PrintSheetModal: React.FC<PrintSheetModalProps> = ({
           adjustments,
           border,
           300,
-          backgroundColor
+          background
         );
 
         const highResSheet = generatePrintSheetCanvas(
@@ -146,7 +146,7 @@ export const PrintSheetModal: React.FC<PrintSheetModalProps> = ({
           adjustments,
           border,
           300,
-          backgroundColor
+          background
         );
 
         const highResSheet = generatePrintSheetCanvas(
@@ -188,7 +188,7 @@ export const PrintSheetModal: React.FC<PrintSheetModalProps> = ({
       adjustments,
       border,
       300,
-      backgroundColor
+      background
     );
 
     const highResSheet = generatePrintSheetCanvas(

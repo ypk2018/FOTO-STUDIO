@@ -203,6 +203,23 @@ export default function App() {
     e.target.value = ''; // Reset input
   };
 
+  // Background image loader
+  useEffect(() => {
+    if (background.mode === 'image' && background.imageUrl) {
+      if (!background.imageElement || background.imageElement.src !== background.imageUrl) {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          setBackground((prev) => ({
+            ...prev,
+            imageElement: img,
+          }));
+        };
+        img.src = background.imageUrl;
+      }
+    }
+  }, [background.mode, background.imageUrl]);
+
   // Clipboard paste listener (Ctrl+V anywhere to paste photo)
   useEffect(() => {
     const handlePaste = (e: ClipboardEvent) => {
@@ -376,7 +393,7 @@ export default function App() {
           crop={crop}
           adjustments={adjustments}
           border={border}
-          backgroundColor={background.mode === 'color' ? background.color : undefined}
+          background={background}
         />
       )}
 
@@ -390,7 +407,7 @@ export default function App() {
           crop={crop}
           adjustments={adjustments}
           border={border}
-          backgroundColor={background.mode === 'color' ? background.color : undefined}
+          background={background}
         />
       )}
 
